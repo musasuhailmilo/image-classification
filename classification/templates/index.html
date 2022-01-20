@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+   <meta charset="utf-8">
+   <title>ClassifyImage.</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">   <style>
+      *{
+         font-family: 'Poppins', sans-serif;
+         box-sizing: border-box;
+         margin: 0;
+       }      .column {
+         float: left;
+         padding: 10px;
+         height: 600px;
+       }       .left {
+         width: 70%;
+       }      .right {
+         width: 30%;
+         padding-left: 30px;
+       }      .row:after {
+         content: "";
+         display: table;
+         clear: both;
+      }      .vertical-center {
+         margin: 0;
+         position: absolute;
+         top: 50%;
+         -ms-transform: translateY(-50%);
+         transform: translateY(-50%);
+      }      .center {
+         margin: auto;
+         width: 50%;
+         padding: 10px;
+      }      .button {
+         background-color: #FEE13D;
+         border: none;
+         color: #000000;
+         padding: 10px 60px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 16px;
+         margin: 4px 2px;
+         cursor: pointer;
+       }      .text {
+         font-size: 16px;
+         text-align: center;
+         background-color: #FAFAFA;
+         padding: 20px 10px;
+      }      @media screen and (max-width: 600px) {
+         .column {
+            float: none;
+         }
+         .left {
+            width: 100%;
+            padding-bottom: 10px;
+            float: none;
+         }         .right {
+            width: 100%;
+            padding-bottom: 10px;
+            float: none;
+         }         .vertical-center {
+            position: absolute;
+            transform: translateY(0%);
+            top: 120%;
+            margin-top: 10px;
+         }         .center{
+            margin: 0;
+         }
+      }   </style></head><body>{% load static %}   <div class="row">      <div class="column left" style="background-color:#FFFFFF;">         <p><b>ClassifyImage.</b></p>         <div class="center">          {% if image_uri is not None %}            <br><br>            <img class="outputImage" src="{{ image_uri }}" width="400" height="400">
+            <div class="text">It seems to be <b>{{predicted_label}}</b></div>          {% endif %}       </div>
+     </div>     <div class="column right" style="background-color:#000000; color: #FFFFFF;">     <div class="vertical-center">        <h3>Choose Image to</h3>        <h2><b>CLASSIFY</b></h2>        <br><br>        <form method="post" enctype="multipart/form-data">           {% csrf_token %}           {{ form }}           <br><br><br><br>           <button type="submit" id="button" class="button" >Classify It</button>          </form>
+       </div>
+    </div>
+  </div>
+</body>
+<script>
+   function loadFile(input) {
+     if (input.files && input.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+           $('#output')
+           .attr('src', e.target.result);
+         };         reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script></html>
